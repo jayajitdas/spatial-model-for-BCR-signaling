@@ -1,0 +1,212 @@
+-- SHIP is not the enzyme SHIP, but used to denote SHP-1
+
+region patch1
+   box width 110 height 110 depth 1
+
+subvolume edge 1
+
+new APC at denapc 
+new BCR(phos=0) at denbcr1
+new BCR(phos=5) at denbcr_rev 
+new Lyn at denlyn 
+new SHIP at denship 
+new Syk(phos=0) at densyk 
+
+
+diffusion APC(cleft#) at kdeffcy 
+diffusion BCR at kdeff 
+diffusion Syk(SH2#) at kdeffcy
+diffusion SHIP(gamma#) at kdeffcy
+diffusion Lyn(SH2#) at kdeff
+
+
+----------------------- BCR APC interaction--------------------------------------------
+
+rxn L:APC(cleft#) R:BCR(groove#) at konapc -> L.cleft # R.groove
+rxn L:APC(cleft#1)BCR(groove#1,cytos#) at koffapc -> break 1
+rxn L:APC(cleft#1)BCR(groove#1,cytos#2)Lyn(SH2#2) at koffapc -> break 1;break 2
+rxn L:APC(cleft#1)BCR(groove#1,cytos#2)Syk(SH2#2,phos=0) at koffapc -> break 1;break 2
+rxn APC(cleft#1)BCR(groove#1,cytos#2)L:Syk(SH2#2,phos=1) at koffapc -> break 1;break 2;L.phos=0
+
+-------------------- Lyn Binding-------------------------------
+
+rxn L:Lyn(SH2#)R:BCR(groove#_,cytos#) at konlyn -> L.SH2 # R.cytos
+rxn L:Lyn(SH2#1)BCR(groove#_,cytos#1) at kofflyn2 -> break 1
+rxn Lyn(SH2#1)L:BCR(groove#_,cytos#1,phos=0) at kphoslyn2 -> L.phos=1
+rxn Lyn(SH2#1)L:BCR(groove#_,cytos#1,phos=1) at kphoslyn2 -> L.phos=2
+rxn Lyn(SH2#1)L:BCR(groove#_,cytos#1,phos=1) at kphoslyn2 -> L.phos=3
+rxn Lyn(SH2#1)L:BCR(groove#_,cytos#1,phos=2) at kphoslyn2 -> L.phos=4
+rxn Lyn(SH2#1)L:BCR(groove#_,cytos#1,phos=3) at kphoslyn2 -> L.phos=4
+rxn Lyn(SH2#1)L:BCR(groove#_,cytos#1,phos=4) at kphoslyn2 -> L.phos=5
+
+------------ Syk binding-----------------------------------------------------------------
+
+
+rxn L:Syk(SH2#,phos=0) R:BCR(groove#_,cytos#,phos=1) at konsyk -> L.SH2 # R.cytos
+rxn L:Syk(SH2#,phos=0) R:BCR(groove#_,cytos#,phos=2) at konsyk -> L.SH2 # R.cytos
+rxn L:Syk(SH2#,phos=0) R:BCR(groove#_,cytos#,phos=3) at konsyk1 -> L.SH2 # R.cytos
+rxn L:Syk(SH2#,phos=0) R:BCR(groove#_,cytos#,phos=4) at konsyk1 -> L.SH2 # R.cytos
+rxn L:Syk(SH2#,phos=0) R:BCR(groove#_,cytos#,phos=5) at konsyk1 -> L.SH2 # R.cytos
+
+
+
+rxn L:Syk(SH2#1,phos=0)BCR(groove#_,cytos#1,phos=1) at koffsyk -> break 1
+rxn BCR(groove#_,cytos#1,phos=1)L:Syk(SH2#1,phos=1) at koffsyk -> break 1;L.phos=0
+rxn L:Syk(SH2#1,phos=0)BCR(groove#_,cytos#1,phos=2) at koffsyk -> break 1
+rxn BCR(groove#_,cytos#1,phos=2)L:Syk(SH2#1,phos=1) at koffsyk -> break 1;L.phos=0
+rxn L:Syk(SH2#1,phos=0)BCR(groove#_,cytos#1,phos=3) at koffsyk1 -> break 1
+rxn BCR(groove#_,cytos#1,phos=3)L:Syk(SH2#1,phos=1) at koffsyk1 -> break 1;L.phos=0
+rxn L:Syk(SH2#1,phos=0)BCR(groove#_,cytos#1,phos=4) at koffsyk1 -> break 1
+rxn BCR(groove#_,cytos#1,phos=4)L:Syk(SH2#1,phos=1) at koffsyk1 -> break 1;L.phos=0
+rxn L:Syk(SH2#1,phos=0)BCR(groove#_,cytos#1,phos=5) at koffsyk1 -> break 1
+rxn BCR(groove#_,cytos#1,phos=5)L:Syk(SH2#1,phos=1) at koffsyk1 -> break 1;L.phos=0
+
+
+rxn L:Syk(SH2#_,phos=0) at ksykauto -> L.phos=1
+
+
+rxn Syk(SH2#1,phos=0)L:BCR(cytos#1,phos=1) at kforward -> L.phos=2
+rxn Syk(SH2#1,phos=0)L:BCR(cytos#1,phos=1) at kforward -> L.phos=3
+rxn Syk(SH2#1,phos=0)L:BCR(cytos#1,phos=2) at kforward -> L.phos=4
+rxn Syk(SH2#1,phos=0)L:BCR(cytos#1,phos=3) at kforward -> L.phos=4
+rxn Syk(SH2#1,phos=0)L:BCR(cytos#1,phos=4) at kforward -> L.phos=5
+
+rxn Syk(SH2#1,phos=1)L:BCR(cytos#1,phos=1) at kforward1 -> L.phos=2
+rxn Syk(SH2#1,phos=1)L:BCR(cytos#1,phos=1) at kforward1 -> L.phos=3
+rxn Syk(SH2#1,phos=1)L:BCR(cytos#1,phos=2) at kforward1 -> L.phos=4
+rxn Syk(SH2#1,phos=1)L:BCR(cytos#1,phos=3) at kforward1 -> L.phos=4
+rxn Syk(SH2#1,phos=1)L:BCR(cytos#1,phos=4) at kforward1 -> L.phos=5
+
+
+rxn R:Syk(SH2#_,phos=1)L:Syk(SH2#1,phos=0)BCR(cytos#1) at kgamma -> L.phos=1
+
+
+
+rxn Syk(SH2#1,phos=0)BCR(cytos#1,phos=1)L:BCR(groove#_,phos=0) at kforward_sec -> L.phos=1
+rxn Syk(SH2#1,phos=0)BCR(cytos#1,phos=1)L:BCR(groove#_,phos=1) at kforward_sec -> L.phos=2
+rxn Syk(SH2#1,phos=0)BCR(cytos#1,phos=1)L:BCR(groove#_,phos=1) at kforward_sec -> L.phos=3
+rxn Syk(SH2#1,phos=0)BCR(cytos#1,phos=1)L:BCR(groove#_,phos=2) at kforward_sec -> L.phos=4
+rxn Syk(SH2#1,phos=0)BCR(cytos#1,phos=1)L:BCR(groove#_,phos=3) at kforward_sec -> L.phos=4
+rxn Syk(SH2#1,phos=0)BCR(cytos#1,phos=1)L:BCR(groove#_,phos=4) at kforward_sec -> L.phos=5
+
+rxn Syk(SH2#1,phos=0)BCR(cytos#1,phos=2)L:BCR(groove#_,phos=0) at kforward_sec -> L.phos=1
+rxn Syk(SH2#1,phos=0)BCR(cytos#1,phos=2)L:BCR(groove#_,phos=1) at kforward_sec -> L.phos=2
+rxn Syk(SH2#1,phos=0)BCR(cytos#1,phos=2)L:BCR(groove#_,phos=1) at kforward_sec -> L.phos=3
+rxn Syk(SH2#1,phos=0)BCR(cytos#1,phos=2)L:BCR(groove#_,phos=2) at kforward_sec -> L.phos=4
+rxn Syk(SH2#1,phos=0)BCR(cytos#1,phos=2)L:BCR(groove#_,phos=3) at kforward_sec -> L.phos=4
+rxn Syk(SH2#1,phos=0)BCR(cytos#1,phos=2)L:BCR(groove#_,phos=4) at kforward_sec -> L.phos=5
+
+rxn Syk(SH2#1,phos=0)BCR(cytos#1,phos=3)L:BCR(groove#_,phos=0) at kforward_sec -> L.phos=1
+rxn Syk(SH2#1,phos=0)BCR(cytos#1,phos=3)L:BCR(groove#_,phos=1) at kforward_sec -> L.phos=2
+rxn Syk(SH2#1,phos=0)BCR(cytos#1,phos=3)L:BCR(groove#_,phos=1) at kforward_sec -> L.phos=3
+rxn Syk(SH2#1,phos=0)BCR(cytos#1,phos=3)L:BCR(groove#_,phos=2) at kforward_sec -> L.phos=4
+rxn Syk(SH2#1,phos=0)BCR(cytos#1,phos=3)L:BCR(groove#_,phos=3) at kforward_sec -> L.phos=4
+rxn Syk(SH2#1,phos=0)BCR(cytos#1,phos=3)L:BCR(groove#_,phos=4) at kforward_sec -> L.phos=5
+
+rxn Syk(SH2#1,phos=0)BCR(cytos#1,phos=4)L:BCR(groove#_,phos=0) at kforward_sec -> L.phos=1
+rxn Syk(SH2#1,phos=0)BCR(cytos#1,phos=4)L:BCR(groove#_,phos=1) at kforward_sec -> L.phos=2
+rxn Syk(SH2#1,phos=0)BCR(cytos#1,phos=4)L:BCR(groove#_,phos=1) at kforward_sec -> L.phos=3
+rxn Syk(SH2#1,phos=0)BCR(cytos#1,phos=4)L:BCR(groove#_,phos=2) at kforward_sec -> L.phos=4
+rxn Syk(SH2#1,phos=0)BCR(cytos#1,phos=4)L:BCR(groove#_,phos=3) at kforward_sec -> L.phos=4
+rxn Syk(SH2#1,phos=0)BCR(cytos#1,phos=4)L:BCR(groove#_,phos=4) at kforward_sec -> L.phos=5
+
+rxn Syk(SH2#1,phos=0)BCR(cytos#1,phos=5)L:BCR(groove#_,phos=0) at kforward_sec -> L.phos=1
+rxn Syk(SH2#1,phos=0)BCR(cytos#1,phos=5)L:BCR(groove#_,phos=1) at kforward_sec -> L.phos=2
+rxn Syk(SH2#1,phos=0)BCR(cytos#1,phos=5)L:BCR(groove#_,phos=1) at kforward_sec -> L.phos=3
+rxn Syk(SH2#1,phos=0)BCR(cytos#1,phos=5)L:BCR(groove#_,phos=2) at kforward_sec -> L.phos=4
+rxn Syk(SH2#1,phos=0)BCR(cytos#1,phos=5)L:BCR(groove#_,phos=3) at kforward_sec -> L.phos=4
+rxn Syk(SH2#1,phos=0)BCR(cytos#1,phos=5)L:BCR(groove#_,phos=4) at kforward_sec -> L.phos=5
+
+
+
+rxn Syk(SH2#1,phos=1)BCR(cytos#1,phos=1)L:BCR(groove#_,phos=0) at kforward1_sec -> L.phos=1
+rxn Syk(SH2#1,phos=1)BCR(cytos#1,phos=1)L:BCR(groove#_,phos=1) at kforward1_sec -> L.phos=2
+rxn Syk(SH2#1,phos=1)BCR(cytos#1,phos=1)L:BCR(groove#_,phos=1) at kforward1_sec -> L.phos=3
+rxn Syk(SH2#1,phos=1)BCR(cytos#1,phos=1)L:BCR(groove#_,phos=2) at kforward1_sec -> L.phos=4
+rxn Syk(SH2#1,phos=1)BCR(cytos#1,phos=1)L:BCR(groove#_,phos=3) at kforward1_sec -> L.phos=4
+rxn Syk(SH2#1,phos=1)BCR(cytos#1,phos=1)L:BCR(groove#_,phos=4) at kforward1_sec -> L.phos=5
+
+rxn Syk(SH2#1,phos=1)BCR(cytos#1,phos=2)L:BCR(groove#_,phos=0) at kforward1_sec -> L.phos=1
+rxn Syk(SH2#1,phos=1)BCR(cytos#1,phos=2)L:BCR(groove#_,phos=1) at kforward1_sec -> L.phos=2
+rxn Syk(SH2#1,phos=1)BCR(cytos#1,phos=2)L:BCR(groove#_,phos=1) at kforward1_sec -> L.phos=3
+rxn Syk(SH2#1,phos=1)BCR(cytos#1,phos=2)L:BCR(groove#_,phos=2) at kforward1_sec -> L.phos=4
+rxn Syk(SH2#1,phos=1)BCR(cytos#1,phos=2)L:BCR(groove#_,phos=3) at kforward1_sec -> L.phos=4
+rxn Syk(SH2#1,phos=1)BCR(cytos#1,phos=2)L:BCR(groove#_,phos=4) at kforward1_sec -> L.phos=5
+
+rxn Syk(SH2#1,phos=1)BCR(cytos#1,phos=3)L:BCR(groove#_,phos=0) at kforward1_sec -> L.phos=1
+rxn Syk(SH2#1,phos=1)BCR(cytos#1,phos=3)L:BCR(groove#_,phos=1) at kforward1_sec -> L.phos=2
+rxn Syk(SH2#1,phos=1)BCR(cytos#1,phos=3)L:BCR(groove#_,phos=1) at kforward1_sec -> L.phos=3
+rxn Syk(SH2#1,phos=1)BCR(cytos#1,phos=3)L:BCR(groove#_,phos=2) at kforward1_sec -> L.phos=4
+rxn Syk(SH2#1,phos=1)BCR(cytos#1,phos=3)L:BCR(groove#_,phos=3) at kforward1_sec -> L.phos=4
+rxn Syk(SH2#1,phos=1)BCR(cytos#1,phos=3)L:BCR(groove#_,phos=4) at kforward1_sec -> L.phos=5
+
+rxn Syk(SH2#1,phos=1)BCR(cytos#1,phos=4)L:BCR(groove#_,phos=0) at kforward1_sec -> L.phos=1
+rxn Syk(SH2#1,phos=1)BCR(cytos#1,phos=4)L:BCR(groove#_,phos=1) at kforward1_sec -> L.phos=2
+rxn Syk(SH2#1,phos=1)BCR(cytos#1,phos=4)L:BCR(groove#_,phos=1) at kforward1_sec -> L.phos=3
+rxn Syk(SH2#1,phos=1)BCR(cytos#1,phos=4)L:BCR(groove#_,phos=2) at kforward1_sec -> L.phos=4
+rxn Syk(SH2#1,phos=1)BCR(cytos#1,phos=4)L:BCR(groove#_,phos=3) at kforward1_sec -> L.phos=4
+rxn Syk(SH2#1,phos=1)BCR(cytos#1,phos=4)L:BCR(groove#_,phos=4) at kforward1_sec -> L.phos=5
+
+rxn Syk(SH2#1,phos=1)BCR(cytos#1,phos=5)L:BCR(groove#_,phos=0) at kforward1_sec -> L.phos=1
+rxn Syk(SH2#1,phos=1)BCR(cytos#1,phos=5)L:BCR(groove#_,phos=1) at kforward1_sec -> L.phos=2
+rxn Syk(SH2#1,phos=1)BCR(cytos#1,phos=5)L:BCR(groove#_,phos=1) at kforward1_sec -> L.phos=3
+rxn Syk(SH2#1,phos=1)BCR(cytos#1,phos=5)L:BCR(groove#_,phos=2) at kforward1_sec -> L.phos=4
+rxn Syk(SH2#1,phos=1)BCR(cytos#1,phos=5)L:BCR(groove#_,phos=3) at kforward1_sec -> L.phos=4
+rxn Syk(SH2#1,phos=1)BCR(cytos#1,phos=5)L:BCR(groove#_,phos=4) at kforward1_sec -> L.phos=5
+
+
+
+
+----------------------------- Deactivation------------------------------------------------------------
+
+
+rxn L:SHIP(gamma#) R:BCR(cytos#,phos=1) at konship1 -> L.gamma # R.cytos
+rxn L:SHIP(gamma#) R:BCR(cytos#,phos=2) at konship1 -> L.gamma # R.cytos
+rxn L:SHIP(gamma#) R:BCR(cytos#,phos=3) at konship1 -> L.gamma # R.cytos
+rxn L:SHIP(gamma#) R:BCR(cytos#,phos=4) at konship1 -> L.gamma # R.cytos
+rxn L:SHIP(gamma#) R:BCR(cytos#,phos=5) at konship1 -> L.gamma # R.cytos
+
+rxn L:SHIP(gamma#1)BCR(cytos#1,phos=1) at koffship1 -> break 1
+rxn L:SHIP(gamma#1)BCR(cytos#1,phos=2) at koffship1 -> break 1
+rxn L:SHIP(gamma#1)BCR(cytos#1,phos=3) at koffship1 -> break 1
+rxn L:SHIP(gamma#1)BCR(cytos#1,phos=4) at koffship1 -> break 1
+rxn L:SHIP(gamma#1)BCR(cytos#1,phos=5) at koffship1 -> break 1
+
+
+
+rxn SHIP(gamma#1)L:BCR(cytos#1,phos=3) at krevship1 -> L.phos=1
+rxn SHIP(gamma#1)L:BCR(cytos#1,phos=1) at krevship1 -> L.phos=0;break 1
+rxn SHIP(gamma#1)L:BCR(cytos#1,phos=2) at krevship1 -> L.phos=1
+rxn SHIP(gamma#1)L:BCR(cytos#1,phos=4) at krevship1 -> L.phos=3
+rxn SHIP(gamma#1)L:BCR(cytos#1,phos=4) at krevship1 -> L.phos=2
+rxn SHIP(gamma#1)L:BCR(cytos#1,phos=5) at krevship1 -> L.phos=4
+
+
+
+rxn L:BCR(cytos#,phos=5) at koffitam -> L.phos=4
+rxn L:BCR(cytos#,phos=4) at koffitam -> L.phos=3
+rxn L:BCR(cytos#,phos=4) at koffitam -> L.phos=2
+rxn L:BCR(cytos#,phos=3) at koffitam -> L.phos=1
+rxn L:BCR(cytos#,phos=2) at koffitam -> L.phos=1
+rxn L:BCR(cytos#,phos=1) at koffitam -> L.phos=0
+
+
+rxn L:BCR(groove#_,cytos#,phos=0) at konitam -> L.phos=1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+record BCR(phos=3)
+record BCR(phos=4)
+record BCR(phos=5)

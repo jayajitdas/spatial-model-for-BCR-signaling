@@ -1,4 +1,4 @@
-# spatial-model-for-BCR-signaling
+# Spatial-Model-for-BCR-Signaling
 This is a spatial model for BCR signaling published in Mukherjee et al. Science Signaling 2013; PMID:  23281368. The codes are written in Stochastic Simulation Compiler (SSC). These codes were previously available in http://planetx.nationwidechildrens.org/~jayajit/.
 
 The .rxn files are codes that can be compiled via a stochastic simulation compiler (SSC) available for free at http://web.mit.edu/irc/ssc/ . 
